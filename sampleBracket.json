@@ -1,18 +1,39 @@
 {
-    "Group":
+    "Group A":
     {
-        "Name": "",
+        "ElimPointsValue": 0,
+        "ElimPlacing": 0,
         "Seeds": []
     },
     "Swiss":
     {
-        "Name": "",
+        "ElimPointsValue": 0,
+        "ElimPlacing": 0,
         "Seeds": []
     },
-    "Bracket":
+    "Semifinal 1":
     {
-        "Name": "",
-        "WinDest": "",
-        "LostDest": ""
+        "Team1": "Group A 1",
+        "Team2:": "Group B 2",
+        "ElimPointsValue": 0,
+        "ElimPlacing": 0,
+        "LossDest": "2"
+    },
+    "Semifinal 2":
+    {
+        "Team1": "Group B 1",
+        "Team2:": "Group A 2",
+        "ElimPointsValue": 0,
+        "ElimPlacing": 0,
+        "LossDest": "2"
+    },
+    "Final":
+    {
+        "Team1": "Semifinal 1",
+        "Team2:": "Semifinal 2",
+        "WinPointsValue": 0,
+        "ElimPointsValue": 0,
+        "ElimPlacing": 0,
+        "LossDest": "2"
     }
 }

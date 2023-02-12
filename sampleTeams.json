@@ -1,8 +1,10 @@
 {
     "Team": {
         "Name": "Team1",
-        "p1": "peepee",
-        "p2": "poopoo",
-        "p3": "papa"
+        "P1": "peepee",
+        "P2": "poopoo",
+        "P3": "papa",
+        "Seed": 1,
+        "Points": 0
     }
 }

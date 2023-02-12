@@ -1,0 +1,24 @@
+{
+    "Bracket Semifinal 1":
+    {
+        "Team1": "Group A 1",
+        "Team2:": "Group B 2",
+        "ElimPointsValue": 0,
+        "ElimPlacing": "3-4"
+    },
+    "Bracket Semifinal 2":
+    {
+        "Team1": "Group B 1",
+        "Team2:": "Group A 2",
+        "ElimPointsValue": 0,
+        "ElimPlacing": "3-4"
+    },
+    "Bracket Final":
+    {
+        "Team1": "Semifinal 1",
+        "Team2:": "Semifinal 2",
+        "WinPointsValue": 0,
+        "ElimPointsValue": 0,
+        "ElimPlacing": "2"
+    }
+}

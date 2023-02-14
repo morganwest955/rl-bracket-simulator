@@ -10,49 +10,49 @@
         "P1": "Firstkiller",
         "P2": "Mist",
         "P3": "Sypical",
-        "Seed": 1,
+        "Seed": 2,
         "Points": 0
     },
     "Version1": {
         "P1": "Beastmode",
         "P2": "Comm",
         "P3": "Torment",
-        "Seed": 1,
+        "Seed": 3,
         "Points": 0
     },
     "Spacestation Gaming": {
         "P1": "Arsenal",
         "P2": "Daniel",
         "P3": "LJ",
-        "Seed": 1,
+        "Seed": 4,
         "Points": 0
     },
     "G2 Esports": {
         "P1": "Atomic",
         "P2": "Chicago",
         "P3": "Jknaps",
-        "Seed": 1,
+        "Seed": 5,
         "Points": 0
     },
     "NRG": {
         "P1": "GarrettG",
         "P2": "jstn",
         "P3": "Squishy",
-        "Seed": 1,
+        "Seed": 6,
         "Points": 0
     },
     "Complexity Gaming": {
         "P1": "Reysbull",
         "P2": "ajg",
         "P3": "crr",
-        "Seed": 1,
+        "Seed": 7,
         "Points": 0
     },
     "FURIA Esports": {
         "P1": "caard",
         "P2": "yANXNZ",
         "P3": "Lostt",
-        "Seed": 1,
+        "Seed": 8,
         "Points": 0
     }
 }

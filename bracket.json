@@ -1,8 +1,8 @@
 {
     "Bracket Final":
     {
-        "Team1": "Semifinal 1",
-        "Team2:": "Semifinal 2",
+        "Team1": "Bracket Semifinal 1",
+        "Team2": "Bracket Semifinal 2",
         "WinPointsValue": 10,
         "ElimPointsValue": 5,
         "ElimPlacing": "2",
@@ -11,7 +11,7 @@
     "Bracket Semifinal 1":
     {
         "Team1": "Group A 1",
-        "Team2:": "Group B 2",
+        "Team2": "Group B 2",
         "ElimPointsValue": 3,
         "ElimPlacing": "3-4",
         "BestOf": 7
@@ -19,10 +19,10 @@
     "Bracket Semifinal 2":
     {
         "Team1": "Group B 1",
-        "Team2:": "Group A 2",
+        "Team2": "Group A 2",
         "ElimPointsValue": 3,
         "ElimPlacing": "3-4",
-        "BestOF": 7
+        "BestOf": 7
     },
     "Group A":
     {

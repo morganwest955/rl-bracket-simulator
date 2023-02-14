@@ -235,6 +235,7 @@ class Bracket:
             if "Final" in node.name: print("WinPointsValue: " + str(node.winPointsValue))
             print("Team 1 Node: " + node.team1Name)
             print("Team 2 Node: " + node.team2Name)
+            if None != Series: print("Series: " + str(node.series))
             if node.team1GroupSeed != 0: print("Team 1 Group Seed: " + str(node.team1GroupSeed))
             if node.team2GroupSeed != 0: print("Team 2 Group Seed: " + str(node.team2GroupSeed))
             print("--------------------------")
@@ -245,6 +246,7 @@ class Bracket:
         elif "Group" in node.name:
             print("Seeds: " + str(node.seeds))
             print("Teams: " + str(node.teams))
+            if None != node.results: print("Results: " + str(node.results))
             print("--------------------------")
             return
         

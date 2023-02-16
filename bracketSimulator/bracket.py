@@ -1,7 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from typing import Optional
 import json
 import traceback
+import itertools
 
 #####
 # Build the bracket for the simulation to run through
@@ -11,6 +12,15 @@ import traceback
 @dataclass
 class Player:
     name: str = ""
+    def printClass(self):
+        print("-- PLAYER --")
+        for field in fields(self):
+            if getattr(self, field.name) is not None and hasattr(getattr(self, field.name), 'printClass'):
+                print(field.name, ": ")
+                getattr(self, field.name).printClass()
+            else:
+                print(f"{field.name}: {getattr(self, field.name)}")
+        print("-- END PLAYER --")
 
 # Class to store information for each team
 @dataclass
@@ -24,6 +34,15 @@ class Team:
     gamesLost: int = 0
     goalsScored: int = 0
     goalsConceded: int = 0
+    def printClass(self):
+        print("---- TEAM ----")
+        for field in fields(self):
+            if getattr(self, field.name) is not None and hasattr(getattr(self, field.name), 'printClass'):
+                print(field.name, ": ")
+                getattr(self, field.name).printClass()
+            else:
+                print(f"{field.name}: {getattr(self, field.name)}")
+        print("---- END TEAM ----")
 
 # Class to store information for each series
 @dataclass
@@ -48,7 +67,16 @@ class Series:
             self.loser = self.team2 
         else:
             self.winner = self.team2 
-            self.loser = self.team1    
+            self.loser = self.team1
+    def printClass(self):
+        print("~~ SERIES ~~")
+        for field in fields(self):
+            if getattr(self, field.name) is not None and hasattr(getattr(self, field.name), 'printClass'):
+                print(field.name, ": ")
+                getattr(self, field.name).printClass()
+            else:
+                print(f"{field.name}: {getattr(self, field.name)}")
+        print("~~ END SERIES ~~")
 
 # Class to store information for each group node
 @dataclass
@@ -62,6 +90,26 @@ class GroupsNode:
     series: list = field(default_factory=list)
     results: list = field(default_factory=list)
     nextNode: any = None
+    def getPossibleOutcomes(self):
+        groupPermutation = []
+        for i in range(1, len(self.teams) + 1):
+            groupPermutation.append(i)
+        return itertools.permutations(groupPermutation)
+    def setResults(self, resultList):
+        for i, r in enumerate(resultList):
+            self.results[i] = self.teams[r - 1]
+    def printClass(self):
+        print("~~~~ GROUP ~~~~")
+        for field in fields(self):
+            if field.name not in ('nextNode'):
+                if getattr(self, field.name) is not None and hasattr(getattr(self, field.name), 'printClass'):
+                    print(field.name, ": ")
+                    getattr(self, field.name).printClass()
+                else:
+                    print(f"{field.name}: {getattr(self, field.name)}")
+        print("~~~~ END GROUP ~~~~")
+        
+
 
 # Class to store information for each swiss node
 @dataclass
@@ -71,6 +119,13 @@ class SwissNode:
     nextNode: any = None
     seeds: list = field(default_factory=list)
     teams: list = field(default_factory=list)
+    def printClass(self):
+        for field in fields(self):
+            if getattr(self, field.name) is not None and hasattr(getattr(self, field.name), 'printClass'):
+                print(field.name, ": ")
+                getattr(self, field.name).printClass()
+            else:
+                print(f"{field.name}: {getattr(self, field.name)}")
 
 # Class to store information for each bracket node
 @dataclass
@@ -88,6 +143,35 @@ class BracketNode:
     team1GroupSeed: int = 0
     team2GroupSeed: int = 0
     nextNode: any = None
+    def getPossibleOutcomes(self):
+        return [[1,2],[2,1]]
+    def setResults(self, resultList):
+        if resultList[0] == 1: 
+            self.series.winner = self.series.team1
+            self.series.loser = self.series.team2
+        else:
+            self.series.winner = self.series.team2
+            self.series.loser = self.series.team1
+    def setSeries(self):
+        if "Bracket" in self.team1Node.name:
+            team1 = self.team1Node.series.winner
+        elif "Group" in self.team1Node.name:
+            team1 = self.team1Node.results[self.team1GroupSeed]
+        if "Bracket" in self.team2Node.name:
+            team2 = self.team2Node.series.winner
+        elif "Group" in self.team2Node.name:
+            team2 = self.team2Node.results[self.team2GroupSeed]
+        self.series = Series(team1, team2, self.bestOf)
+    def printClass(self):
+        print("~~~~ BRACKET ~~~~")
+        for field in fields(self):
+            if field.name not in ('team1Node', 'team2Node', 'nextNode'):
+                if getattr(self, field.name) is not None and hasattr(getattr(self, field.name), 'printClass'):
+                    print(field.name, ": ")
+                    getattr(self, field.name).printClass()
+                else:
+                    print(f"{field.name}: {getattr(self, field.name)}")
+        print("~~~~ END BRACKET ~~~~")
 
 # Class to build and navigate the full tournament bracket
 class Bracket:
@@ -144,6 +228,8 @@ class Bracket:
         # enable two-way traversal
         self.setNextNodes(self.findFinalNode(nodeList), None, 0)
         self.bracketRootNode = self.findFinalNode(nodeList)
+        self.nodeList = nodeList
+        self.teamList = teamList
 
     # Find the root (Final) node from the node list generated with the input JSON
     # RETURN: node
@@ -195,50 +281,43 @@ class Bracket:
 
     # Navigate the bracket from the root node and find a leaf node given the name
     # RETURN: node
-    def findNodeFromRoot(self, node, nodeName):
+    # def findNodeFromRoot(self, node, nodeName):
+    #     print(node.name, " - ", nodeName)
+    #     if node.name == nodeName:
+    #         print("hello")
+    #         return node
+    #     if "Bracket" in node.name:
+    #         if None != node.team1Node:
+    #             self.findNodeFromRoot(node.team1Node, nodeName)
+    #         if None != node.team2Node:
+    #             self.findNodeFromRoot(node.team2Node, nodeName)
+    #     return None
+
+    def findNodeFromRoott(self, node, nodeName):
         if node.name == nodeName:
             return node
         if "Bracket" in node.name:
-            if None != node.team1Node:
-                self.findNodeFromRoot(node.team1Node, nodeName)
-            if None != node.team2Node:
-                self.findNodeFromRoot(node.team2Node, nodeName)
-        print("ERROR: Reached end of bracket, cannod find node: " + nodeName)
+            if node.team1Node:
+                foundNode = self.findNodeFromRoott(node.team1Node, nodeName)
+                if foundNode:
+                    return foundNode
+            if node.team2Node:
+                foundNode = self.findNodeFromRoott(node.team2Node, nodeName)
+                if foundNode:
+                    return foundNode
+        return None
 
     # Navigate to the next node in the bracket
     # RETURN node
     def getNextNode(self, node):
         return node.nextNode
 
-    # Create a series in a bracket node
-    def setBracketSeries(self, node):
-        team1 = None
-        team2 = None
-        if "Bracket" in node.team1Node.name:
-            team1 = node.team1Node.series.winner
-        elif "Group" in node.team1Node.name:
-            team1 = node.team1Node.results[node.team1GroupSeed]
-        if "Bracket" in node.team2Node.name:
-            team2 = node.team2Node.series.winner
-        elif "Group" in node.team2Node.name:
-            team2 = node.team2Node.results[node.team2GroupSeed]
-        node.series = Series(team1, team2, node.bestOf)
-
     # Traverse the bracket and print out every node
     def printBracketTraversal(self, node):
         print("--------------------------")
-        print("Name: " + node.name)
-        print("ElimPointsValue: " + str(node.elimPointsValue))
-        print("ElimPlacing: " + str(node.elimPlacing))
-        print("BestOf: " + str(node.bestOf))
+        node.printClass()
+        print("--------------------------")
         if "Bracket" in node.name:
-            if "Final" in node.name: print("WinPointsValue: " + str(node.winPointsValue))
-            print("Team 1 Node: " + node.team1Name)
-            print("Team 2 Node: " + node.team2Name)
-            if None != Series: print("Series: " + str(node.series))
-            if node.team1GroupSeed != 0: print("Team 1 Group Seed: " + str(node.team1GroupSeed))
-            if node.team2GroupSeed != 0: print("Team 2 Group Seed: " + str(node.team2GroupSeed))
-            print("--------------------------")
             if None != node.team1Node:
                 self.printBracketTraversal(node.team1Node)
             if None != node.team2Node:
@@ -247,8 +326,7 @@ class Bracket:
             print("Seeds: " + str(node.seeds))
             print("Teams: " + str(node.teams))
             if None != node.results: print("Results: " + str(node.results))
-            print("--------------------------")
             return
         
-bracket = Bracket("../bracket.json", "../sampleTeams.json")
-bracket.printBracketTraversal(bracket.bracketRootNode)
+# bracket = Bracket("../bracket.json", "../sampleTeams.json")
+# bracket.printBracketTraversal(bracket.bracketRootNode)

@@ -1,17 +1,24 @@
 from bracket import Bracket
 import itertools
 
+#TODO: Reset the bracket between each simulation
+#TODO: Give points and elimination placing for teams that don't make it out of groups
+#TODO: Save team results and standings results after each scenario
+#TODO: Remove any duplicate scenario results on the fly and save the amount of occurances
+
 class SimulateAllScenarios:
 
     def __init__(self, bracketJson, teamJson):
         bracket = Bracket(bracketJson, teamJson)
         # bracket.printBracketTraversal(bracket.bracketRootNode)
         for i, scenario in enumerate(self.getSimScenarios(bracket.nodeList)):
-            # print("scenario ", i)
+            # bracket.buildBracket(bracketJson)
+            # bracket.populateBracket(teamJson, bracket.nodeList)
             self.runBracketScenario(bracket, scenario)
-            if i == 5: 
-                print("~~~~~~~~~~~~~~~~~~~~~~")
-                bracket.printBracketTraversal(bracket.bracketRootNode)
+        for team in bracket.teamList:
+            team.printClass()
+            print("---------")
+        # bracket.printBracketTraversal(bracket.bracketRootNode)
 
     # Get every possible full bracket scenario
     # YIELD example: {'Bracket Final': [2, 1], 'Bracket Semifinal 1': [2, 1], 'Bracket Semifinal 2': [2, 1], 'Group A': (4, 3, 2, 1), 'Group B': (4, 3, 2, 1)}
@@ -33,7 +40,7 @@ class SimulateAllScenarios:
 
     def runBracketScenario(self, bracket, scenario):
         for key in reversed(scenario.keys()):
-            node = bracket.findNodeFromRoott(bracket.bracketRootNode, key)
+            node = bracket.findNodeFromRoot(bracket.bracketRootNode, key)
             if "Bracket" in node.name:
                 node.setSeries()
             node.setResults(scenario[key])

@@ -34,6 +34,7 @@ class Team:
     gamesLost: int = 0
     goalsScored: int = 0
     goalsConceded: int = 0
+    finishPlace: str = ""
     def printClass(self):
         print("---- TEAM ----")
         for field in fields(self):
@@ -152,6 +153,11 @@ class BracketNode:
         else:
             self.series.winner = self.series.team2
             self.series.loser = self.series.team1
+        self.series.loser.points += self.elimPointsValue
+        self.series.loser.finishPlace = self.elimPlacing
+        if "Final" in self.name:
+            self.series.winner.points += self.winPointsValue
+            self.series.winner.finishPlace = "1st"
     def setSeries(self):
         if "Bracket" in self.team1Node.name:
             team1 = self.team1Node.series.winner
@@ -231,6 +237,64 @@ class Bracket:
         self.nodeList = nodeList
         self.teamList = teamList
 
+    def buildBracket(self, bracketJson):
+        bracketData = json.load(open(bracketJson))
+        nodeList = []
+        
+        # creating each node
+        for node in bracketData:
+            if "Bracket" in node:
+                try:
+                    if "Final" in node:
+                        nodeList.append(BracketNode(node, bracketData[node]["ElimPointsValue"], bracketData[node]["ElimPlacing"], bracketData[node]["Team1"], bracketData[node]["Team2"], bracketData[node]["BestOf"], bracketData[node]["WinPointsValue"]))
+                    else:                   
+                        nodeList.append(BracketNode(node, bracketData[node]["ElimPointsValue"], bracketData[node]["ElimPlacing"], bracketData[node]["Team1"], bracketData[node]["Team2"], bracketData[node]["BestOf"]))
+                except Exception as e:
+                    print("ERROR: Bracket node does not have all valid fields. Check README for valid examples: " + node)
+                    print(e)
+                    traceback.print_exc()
+                    exit(1)
+            elif "Group" in node:
+                try:
+                    nodeList.append(GroupsNode(node, bracketData[node]["ElimPointsValue"], bracketData[node]["ElimPlacing"], bracketData[node]["Seeds"], bracketData[node]["BestOf"]))
+                except Exception as e:
+                    print("ERROR: Group node does not have all valid fields. Check README for valid examples: " + node)
+                    print(e)
+                    traceback.print_exc()
+                    exit(1)
+        # connecting nodes to create bracket
+        for node in nodeList:
+            if "Bracket" in node.name:
+                node.team1Node = self.findNodeFromList(nodeList, node.team1Name)
+                if "Group" in node.team1Name:
+                    nameList = node.team1Name.split(" ")
+                    node.team1GroupSeed = int(nameList[2])
+                node.team2Node = self.findNodeFromList(nodeList, node.team2Name)
+                if "Group" in node.team2Name:
+                    nameList = node.team2Name.split(" ")
+                    node.team2GroupSeed = int(nameList[2])
+        # enable two-way traversal
+        self.setNextNodes(self.findFinalNode(nodeList), None, 0)
+        self.bracketRootNode = self.findFinalNode(nodeList)
+        self.nodeList = nodeList
+    
+    def populateBracket(self, teamJson, nodeList):
+        teamData = json.load(open(teamJson))
+        teamList = []
+        # populating team objects
+        for team in teamData:
+            playerList = []
+            playerList.append(Player(teamData[team]["P1"]))
+            playerList.append(Player(teamData[team]["P2"]))
+            playerList.append(Player(teamData[team]["P3"]))
+            teamList.append(Team(team, playerList, teamData[team]["Points"], teamData[team]["Seed"]))
+        # populating groups with teams
+        for node in nodeList:
+            if "Group" in node.name:
+                node.teams = self.findTeamsForGroups(teamList, node.seeds)
+                node.results = node.teams # will be reordered after games are run
+        self.teamList = teamList
+
     # Find the root (Final) node from the node list generated with the input JSON
     # RETURN: node
     def findFinalNode(self, nodeList):
@@ -279,30 +343,16 @@ class Bracket:
         self.setNextNodes(node.team1Node, node, layer + 1)
         self.setNextNodes(node.team2Node, node, layer + 1)
 
-    # Navigate the bracket from the root node and find a leaf node given the name
-    # RETURN: node
-    # def findNodeFromRoot(self, node, nodeName):
-    #     print(node.name, " - ", nodeName)
-    #     if node.name == nodeName:
-    #         print("hello")
-    #         return node
-    #     if "Bracket" in node.name:
-    #         if None != node.team1Node:
-    #             self.findNodeFromRoot(node.team1Node, nodeName)
-    #         if None != node.team2Node:
-    #             self.findNodeFromRoot(node.team2Node, nodeName)
-    #     return None
-
-    def findNodeFromRoott(self, node, nodeName):
+    def findNodeFromRoot(self, node, nodeName):
         if node.name == nodeName:
             return node
         if "Bracket" in node.name:
             if node.team1Node:
-                foundNode = self.findNodeFromRoott(node.team1Node, nodeName)
+                foundNode = self.findNodeFromRoot(node.team1Node, nodeName)
                 if foundNode:
                     return foundNode
             if node.team2Node:
-                foundNode = self.findNodeFromRoott(node.team2Node, nodeName)
+                foundNode = self.findNodeFromRoot(node.team2Node, nodeName)
                 if foundNode:
                     return foundNode
         return None

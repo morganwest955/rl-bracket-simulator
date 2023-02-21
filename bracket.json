@@ -5,7 +5,7 @@
         "Team2": "Bracket Semifinal 2",
         "WinPointsValue": 10,
         "ElimPointsValue": 5,
-        "ElimPlacing": "2",
+        "ElimPlacing": "2nd",
         "BestOf": 7
     },
     "Bracket Semifinal 1":
@@ -29,6 +29,7 @@
         "ElimPointsValue": 1,
         "ElimPlacing": "5-8",
         "Seeds": [1, 3, 5, 7],
+        "ElimResults": [3,4],
         "BestOf": 5
     },
     "Group B":
@@ -36,6 +37,7 @@
         "ElimPointsValue": 1,
         "ElimPlacing": "5-8",
         "Seeds": [2, 4, 6, 8],
+        "ElimResults": [3,4],
         "BestOf": 5
     }
 }

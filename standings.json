@@ -1,0 +1,82 @@
+{
+    "1":
+    {
+        "placement": "1st",
+        "points": 20
+    },
+    "2":
+    {
+        "placement": "2nd",
+        "points": 16
+    },
+    "3":
+    {
+        "placement": "3rd-4th",
+        "points": 12
+    },
+    "4":
+    {
+        "placement": "3rd-4th",
+        "points": 12
+    },
+    "5":
+    {
+        "placement": "5th-8th",
+        "points": 8
+    },
+    "6":
+    {
+        "placement": "5th-8th",
+        "points": 8
+    },
+    "7":
+    {
+        "placement": "5th-8th",
+        "points": 8
+    },
+    "8":
+    {
+        "placement": "5th-8th",
+        "points": 8
+    },
+    "9":
+    {
+        "placement": "9th-12th",
+        "points": 5
+    },
+    "10":
+    {
+        "placement": "9th-12th",
+        "points": 5
+    },
+    "11":
+    {
+        "placement": "9th-12th",
+        "points": 5
+    },
+    "12":
+    {
+        "placement": "9th-12th",
+        "points": 5
+    },
+    "13":
+    {
+        "placement": "13th-16th",
+        "points": 3
+    },
+    "14":
+    {
+        "placement": "13th-16th",
+        "points": 3
+    },
+    "15":
+    {
+        "placement": "13th-16th",
+        "points": 3
+    },
+    "16":
+    {
+        "placement": "13th-16th",
+        "points": 3
+    }
+}

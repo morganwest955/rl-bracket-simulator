@@ -4,6 +4,7 @@ import json
 import traceback
 import itertools
 import pandas as pd
+import numpy as np
 
 #####
 # Build the bracket for the simulation to run through
@@ -196,7 +197,7 @@ class Bracket:
 
     def __init__(self, bracketJson, teamJson):
         bracketData = json.load(open(bracketJson))
-        teamData = json.load(open(teamJson))
+        self.teamData = json.load(open(teamJson))
         nodeList = []
         teamList = []
         # creating each node
@@ -221,12 +222,12 @@ class Bracket:
                     traceback.print_exc()
                     exit(1)
         # populating team objects
-        for team in teamData:
+        for team in self.teamData:
             playerList = []
-            playerList.append(Player(teamData[team]["P1"]))
-            playerList.append(Player(teamData[team]["P2"]))
-            playerList.append(Player(teamData[team]["P3"]))
-            teamList.append(Team(team, playerList, teamData[team]["Points"], teamData[team]["Seed"]))
+            playerList.append(Player(self.teamData[team]["P1"]))
+            playerList.append(Player(self.teamData[team]["P2"]))
+            playerList.append(Player(self.teamData[team]["P3"]))
+            teamList.append(Team(team, playerList, self.teamData[team]["Points"], self.teamData[team]["Seed"]))
         # populating groups with teams
         for node in nodeList:
             if "Group" in node.name:
@@ -318,7 +319,9 @@ class Bracket:
                 resetResults.append(i)
             node.results = resetResults
         for team in self.teamList:
-            team.points = 0
+            for data in self.teamData:
+                if data == team.name:
+                    team.points = self.teamData[data]["Points"]
 
     # Find the root (Final) node from the node list generated with the input JSON
     # RETURN: node
@@ -406,10 +409,14 @@ class Bracket:
         return node.nextNode
 
     # Create a df of the standings of all teams sorted by total points
-    def getBracketStandings(self, standingsDf):
+    # def getBracketStandings(self, standingsDf):
+    def getBracketStandings(self):
+        standingsList = []
         for team in self.teamList:
-            standingsDf.loc[len(standingsDf.index)] = [team.name, team.finishPlace, team.points]        
-        return standingsDf.sort_values(by = "totalPoints", ascending = False)
+            standingsList.append([team.name, team.finishPlace, team.points])
+        standingsArray = np.array(standingsList)
+        sortedStandingsArray = np.flipud(standingsArray[standingsArray[:, 2].astype(float).argsort()])
+        return sortedStandingsArray
 
     # Traverse the bracket and print out every node
     def printBracketTraversal(self, node):

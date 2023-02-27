@@ -1,0 +1,123 @@
+{
+    "Bracket Final":
+    {
+        "Team1": "Bracket Semifinal 1",
+        "Team2": "Bracket Semifinal 2",
+        "WinPointsValue": 20,
+        "ElimPointsValue": 16,
+        "ElimPlacing": "2nd",
+        "BestOf": 7
+    },
+    "Bracket Semifinal 1":
+    {
+        "Team1": "Bracket Quarterfinal 1",
+        "Team2": "Bracket Quarterfinal 2",
+        "ElimPointsValue": 12,
+        "ElimPlacing": "3-4",
+        "BestOf": 7
+    },
+    "Bracket Semifinal 2":
+    {
+        "Team1": "Bracket Quarterfinal 3",
+        "Team2": "Bracket Quarterfinal 4",
+        "ElimPointsValue": 12,
+        "ElimPlacing": "3-4",
+        "BestOf": 7
+    },
+    "Bracket Quarterfinal 1":
+    {
+        "Team1": "Group A 1",
+        "Team2": "Bracket Round 1 1",
+        "ElimPointsValue": 8,
+        "ElimPlacing": "5-8",
+        "BestOf": 7
+    },
+    "Bracket Quarterfinal 2":
+    {
+        "Team1": "Group D 1",
+        "Team2": "Bracket Round 1 2",
+        "ElimPointsValue": 8,
+        "ElimPlacing": "5-8",
+        "BestOf": 7
+    },
+    "Bracket Quarterfinal 3":
+    {
+        "Team1": "Group B 1",
+        "Team2": "Bracket Round 1 3",
+        "ElimPointsValue": 8,
+        "ElimPlacing": "5-8",
+        "BestOf": 7
+    },
+    "Bracket Quarterfinal 4":
+    {
+        "Team1": "Group C 1",
+        "Team2": "Bracket Round 1 4",
+        "ElimPointsValue": 8,
+        "ElimPlacing": "5-8",
+        "BestOf": 7
+    },
+    "Bracket Round 1 1":
+    {
+        "Team1": "Group B 2",
+        "Team2": "Group D 3",
+        "ElimPointsValue": 5,
+        "ElimPlacing": "9-12",
+        "BestOf": 7
+    },
+    "Bracket Round 1 2":
+    {
+        "Team1": "Group C 2",
+        "Team2": "Group A 3",
+        "ElimPointsValue": 5,
+        "ElimPlacing": "9-12",
+        "BestOf": 7
+    },
+    "Bracket Round 1 3":
+    {
+        "Team1": "Group A 2",
+        "Team2": "Group C 3",
+        "ElimPointsValue": 5,
+        "ElimPlacing": "9-12",
+        "BestOf": 7
+    },
+    "Bracket Round 1 4":
+    {
+        "Team1": "Group D 2",
+        "Team2": "Group B 3",
+        "ElimPointsValue": 5,
+        "ElimPlacing": "9-12",
+        "BestOf": 7
+    },
+    "Group A":
+    {
+        "ElimPointsValue": 3,
+        "ElimPlacing": "13-16",
+        "Seeds": [1, 7, 12, 14],
+        "ElimResults": [4],
+        "BestOf": 5
+    },
+    "Group B":
+    {
+        "ElimPointsValue": 3,
+        "ElimPlacing": "13-16",
+        "Seeds": [2, 8, 11, 13],
+        "ElimResults": [4],
+        "BestOf": 5
+    },
+    "Group C":
+    {
+        "ElimPointsValue": 3,
+        "ElimPlacing": "13-16",
+        "Seeds": [3, 5, 10, 16],
+        "ElimResults": [4],
+        "BestOf": 5
+    },
+    "Group D":
+    {
+        "ElimPointsValue": 3,
+        "ElimPlacing": "13-16",
+        "Seeds": [4, 6, 9, 15],
+        "ElimResults": [4],
+        "BestOf": 5
+    }
+}
